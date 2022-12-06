@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# script to run, then delete the executable built 
+# as stated above, the target is to just 'run' the program
+# for strictly building, use bld
+
+fileToCompile="$1"
+
+outputFileName=$(basename ${fileToCompile} .cpp)
+
+#-Wall -Weffc++ -Wextra -Wsign-conversion // turn compiler warning levels to max
+#-Werror // treat warnings as errors
+#-pedantic errors // turn off compiler extensions
+build="g++ -fdiagnostics-color=always -g -Werror -Wall -Weffc++ -Wextra -Wsign-conversion -pedantic-errors -std=c++20"
+
+${build} ${fileToCompile} -o ${outputFileName}
+./${outputFileName}
+rm ${outputFileName}
