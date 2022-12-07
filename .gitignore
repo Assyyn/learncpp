@@ -1,3 +1,7 @@
-# tools - user config #
+# personal script folder #
 #######################
-tools
+tools/
+
+# build folder #
+#######################
+build/
