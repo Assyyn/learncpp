@@ -5,3 +5,6 @@ tools/
 # build folder #
 #######################
 build/
+
+# executables in other folders #
+*.exe
