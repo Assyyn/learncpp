@@ -21,7 +21,7 @@ private:
     int generateID() // generate 'unique' playerID, status: incomplete
     {
         static int s_playerID{1e5};
-            return s_playerID ++;
+        return s_playerID++;
     }
 
     int RandInt()
@@ -30,7 +30,7 @@ private:
         return rand();
     }
 
-    const int maxIDlimit {2e6};
+    const int maxIDlimit{2e6};
 };
 
 User newUser() // make new user account
