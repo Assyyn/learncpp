@@ -30,3 +30,7 @@ int main() {
 }
 
 // however, function overloading is a better alternative in many cases
+// like the implementation of greet1()
+// which has many advantages like:
+// - not having to worry about null dereferences
+// - and we could pass in a string literal(rvalue) if we want
