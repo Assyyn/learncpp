@@ -26,6 +26,7 @@ int main() {
   greet1();
 
   greet1(joe);
+
   return 0;
 }
 
