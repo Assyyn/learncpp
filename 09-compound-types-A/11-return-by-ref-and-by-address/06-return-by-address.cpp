@@ -19,7 +19,7 @@ int main() {
   std::vector<std::string> classOne{"Mary", "John", "Harry"};
 
   std::string name{"Mary"};
-  auto found{getStudent(classOne, name)};
+  const std::string *found{getStudent(classOne, name)};
   if (!found)
     std::cout << name << " is not a student.\n";
 
