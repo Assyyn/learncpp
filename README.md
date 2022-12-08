@@ -1,1 +1,3 @@
-# Repo to access my work remotely
+# Learning c++ from learncpp.com
+documentation of my c++ learning journey. 
+suggestions appreciated 😊
