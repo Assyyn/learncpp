@@ -8,3 +8,7 @@ build/
 
 # executables in other folders #
 *.exe
+
+###############################
+# IDE junk #
+.vscode/
