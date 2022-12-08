@@ -12,3 +12,4 @@ build/
 ###############################
 # IDE junk #
 .vscode/
+compile_flags.txt
