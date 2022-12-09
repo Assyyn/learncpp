@@ -1,11 +1,13 @@
 // an example of a user(program)-defined Fraction type:
 // This only defines what a Fraction type looks like, it doesn't create one
-struct Fraction {
+struct Fraction
+{
   int numerator{};
   int denominator{};
 };
 
-int main() {
+int main()
+{
   Fraction f{3, 4}; // this actually instantiates a Fraction object named f
 
   return 0;
