@@ -2,24 +2,24 @@
 // using namespaces also prevents you from polluting the global namespace
 namespace item
 {
-    enum ItemType
-    {
-        weapon,
-        potion,
-        food,
-        nothing,
-    };
+enum ItemType
+{
+    weapon,
+    potion,
+    food,
+    nothing,
+};
 }
 
 namespace clothing
 {
-    enum Clothes
-    {
-        armor,
-        regular,
-        fancy,
-        nothing, // no namespace collisions with ItemType::nothing
-    };
+enum Clothes
+{
+    armor,
+    regular,
+    fancy,
+    nothing, // no namespace collisions with ItemType::nothing
+};
 }
 
 // no naming collisions in the global namespace

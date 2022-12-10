@@ -1,4 +1,5 @@
-// some examples of using enumerations to improve code documentation and readability
+// some examples of using enumerations to improve code documentation and
+// readability
 
 /****************************************************************/
 

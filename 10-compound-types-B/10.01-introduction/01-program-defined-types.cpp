@@ -2,15 +2,15 @@
 // This only defines what a Fraction type looks like, it doesn't create one
 struct Fraction
 {
-  int numerator{};
-  int denominator{};
+    int numerator{};
+    int denominator{};
 };
 
 int main()
 {
-  Fraction f{3, 4}; // this actually instantiates a Fraction object named f
+    Fraction f{3, 4}; // this actually instantiates a Fraction object named f
 
-  return 0;
+    return 0;
 }
 
 // By convention, program-defined types are named starting with a capital letter

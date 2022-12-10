@@ -1,19 +1,19 @@
-// Define an enumerated type named MonsterType to choose between the following monster races:
-// orcs, goblins, trolls, ogres, and skeletons.
+// Define an enumerated type named MonsterType to choose between the following
+// monster races: orcs, goblins, trolls, ogres, and skeletons.
 
 #include <iostream>
 #include <string>
 
 namespace monster
 {
-    enum MonsterType
-    {
-        orc,
-        goblin,
-        troll,
-        ogre,
-        skeleton,
-    };
+enum MonsterType
+{
+    orc,
+    goblin,
+    troll,
+    ogre,
+    skeleton,
+};
 }
 
 monster::MonsterType getMonsterType()
@@ -25,7 +25,10 @@ monster::MonsterType getMonsterType()
               << "4. Ogre\n"
               << "5. Skeleton\n";
 
-    for (std::string userInput{}; std::cin >> userInput, userInput[0] = tolower(userInput[0]);) // get input until valid input entered
+    for (std::string userInput{};
+         std::cin >> userInput,
+         userInput[0] =
+             tolower(userInput[0]);) // get input until valid input entered
     {
         if (userInput == "orc")
             return monster::orc;
@@ -45,25 +48,25 @@ monster::MonsterType getMonsterType()
     throw std::runtime_error("Something went wrong.\n");
 }
 
-void printRace(monster::MonsterType &Race)
+void printRace(monster::MonsterType& Race)
 {
     switch (Race)
     {
-    case monster::goblin:
-        std::cout << "goblin?\n";
-        break;
-    case monster::orc:
-        std::cout << "orc?\n";
-        break;
-    case monster::skeleton:
-        std::cout << "skeleton?\n";
-        break;
-    case monster::ogre:
-        std::cout << "ogre?\n";
-        break;
-    case monster::troll:
-        std::cout << "troll?\n";
-        break;
+        case monster::goblin:
+            std::cout << "goblin?\n";
+            break;
+        case monster::orc:
+            std::cout << "orc?\n";
+            break;
+        case monster::skeleton:
+            std::cout << "skeleton?\n";
+            break;
+        case monster::ogre:
+            std::cout << "ogre?\n";
+            break;
+        case monster::troll:
+            std::cout << "troll?\n";
+            break;
     }
 }
 

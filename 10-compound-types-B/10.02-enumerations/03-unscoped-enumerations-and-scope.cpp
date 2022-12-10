@@ -9,7 +9,8 @@ enum Color // defined in the global namespace
 
     red,
     // red can be accessed as 'red' without having to scope to Color::red
-    green, // however, something like Color::green is also fine(but mostly not used with unscoped enums)
+    green, // however, something like Color::green is also fine(but mostly not
+           // used with unscoped enums)
     blue,
 };
 

@@ -2,8 +2,8 @@
 enum Color
 {
     // Here are the enumerators
-    // Theses symbolic constants define all the possible values this type can hold
-    // Each enumerator is separated by a comma, not a semicolon
+    // Theses symbolic constants define all the possible values this type can
+    // hold Each enumerator is separated by a comma, not a semicolon
     red,
     green,
     blue, // trailing comma is optional but recommended

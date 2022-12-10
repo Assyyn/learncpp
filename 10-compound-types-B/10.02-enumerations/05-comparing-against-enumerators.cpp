@@ -15,7 +15,8 @@ int main()
     // do some work..
     shirt = dirty;
 
-    if (shirt == blue) // we can compare enumerations to enumerators with '==' and '!='
+    if (shirt ==
+        blue) // we can compare enumerations to enumerators with '==' and '!='
         std::cout << "Your shirt is blue!";
     else if (shirt == dirty)
         std::cout << "Your shirt is dirty!";
