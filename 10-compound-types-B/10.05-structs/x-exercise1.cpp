@@ -11,4 +11,43 @@
 #include <iostream>
 
 struct Advertising
-{};
+{
+    int adsShown{0};
+    double clickThroughRatePercentage{0};
+    double averageEarningsPerClick{0};
+};
+
+Advertising getAdvertising()
+{
+    Advertising x;
+
+    std::cout << "How many ads were shown today?  ";
+    std::cin >> x.adsShown;
+
+    std::cout << "What percentage of ads were clicked on by users? ";
+    std::cin >> x.clickThroughRatePercentage;
+
+    std::cout << "What was the average earnings per click? ";
+    std::cin >> x.averageEarningsPerClick;
+
+    return x;
+}
+
+void printAdvertising(const Advertising& x)
+{
+    std::cout << "Number of ads shown:" << x.adsShown << '\n';
+    std::cout << "Click through rate: " << x.clickThroughRatePercentage << '\n';
+    std::cout << "Average earnings per click: " << x.averageEarningsPerClick
+              << '\n';
+    std::cout << "Total money made today: $"
+              << x.averageEarningsPerClick * x.adsShown *
+                     x.clickThroughRatePercentage
+              << '\n';
+}
+
+int main()
+{
+    Advertising noodles{getAdvertising()};
+    printAdvertising(noodles);
+    return 0;
+}
