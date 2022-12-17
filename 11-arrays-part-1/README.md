@@ -1,1 +1,1 @@
-# skipped it because bored; just skimmed through the chapters cos I already know the basics :)
+# deliberately skipped some chapters.
