@@ -1,6 +1,6 @@
 /* Question #6
 
-Let’s prerank_10d we’re writing a card game.
+Let’s pretend we’re writing a card game.
 */
 #include <algorithm>
 #include <array>
