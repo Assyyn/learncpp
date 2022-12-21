@@ -36,7 +36,7 @@ Card fromDeck(Deck& deck)
     return result;
 }
 
-void Player::receiveCard(Deck& deck)
+void User::drawFrom(Deck& deck)
 {
     // get card from deck
     auto card{fromDeck(deck)};
@@ -48,7 +48,7 @@ void Player::receiveCard(Deck& deck)
     score += getCardValue(card);
 }
 
-void Player::printHand() const
+void User::printHand() const
 {
     for (const auto& x : cardsInHand)
     {
@@ -58,12 +58,12 @@ void Player::printHand() const
 }
 
 // return player type
-std::string_view pType(const Player& player)
+std::string_view pType(const User& player)
 {
-    return (player.type == Player::Type::dealer) ? "Dealer" : "Player";
+    return (player.type == User::Type::dealer) ? "Dealer" : "Player";
 }
 
-std::string Player::getName()
+std::string User::getName()
 {
     // maximum characters in username
     constexpr int max_Usize{10};
@@ -75,43 +75,50 @@ std::string Player::getName()
     return username.substr(0, max_Usize);
 }
 
-void startPhase(Deck& deck, Player& dealer, Player& user)
+// print the card drawn last
+void printDraw(const User& player)
+{
+    std::cout << "--> Drew a ";
+    printCard(player.cardsInHand.back());
+    std::cout << '\n';
+}
+
+void startPhase(Deck& deck, User& dealer, User& player)
 {
     // dealer gets one card to start
-    dealer.receiveCard(deck);
+    dealer.drawFrom(deck);
 
     // player gets two cards to start
-    user.receiveCard(deck);
-    user.receiveCard(deck);
+    player.drawFrom(deck);
+    player.drawFrom(deck);
 }
 
 // print player stats
-void printStats(const Player& player)
+void printStats(const User& player)
 {
-    std::cout << "Type: " << pType(player) << '\t'
-              << "username: " << player.name << '\n';
+    std::cout << "\nStats for: " << player.name << '\n';
+
+    std::cout << "Type: " << pType(player) << '\n';
 
     std::cout << "Hand: ";
     player.printHand();
     std::cout << '\t';
 
-    std::cout << "Score: " << player.score << '\n';
+    std::cout << "Score: " << player.score << "\n\n";
 }
 
 // when player 'hits'
-bool hit(Deck& deck, Player& player)
+bool hit(Deck& deck, User& player)
 {
     std::cout << "\nHit!\n";
-    player.receiveCard(deck);
+    player.drawFrom(deck);
 
-    std::cout << "--> Drew a ";
-    printCard(player.cardsInHand.back());
-    std::cout << '\n';
+    printDraw(player);
 
     if (player.score > 21)
     {
-        printStats(player);
         std::cout << player.name << " lost!\n";
+        player.status = User::lost;
 
         return false;
     }
@@ -120,10 +127,12 @@ bool hit(Deck& deck, Player& player)
 }
 
 // when player 'stands'
-bool stand(const Player& player)
+bool stand(User& player)
 {
     std::cout << "\nTotal Score for " << player.name << ": " << player.score
               << '\n';
+    player.status = User::stand;
+
     return false;
 }
 
@@ -144,7 +153,7 @@ char playerChoice()
 }
 
 // take action on player's choice
-bool endTurn(char choice, Deck& deck, Player& player)
+bool endTurn(char choice, Deck& deck, User& player)
 {
     switch (choice)
     {
@@ -157,28 +166,126 @@ bool endTurn(char choice, Deck& deck, Player& player)
     }
 }
 
-// returns false if the player lost, else returns true
-bool PlayerTurn(Deck& deck, Player& player)
+// return the current state of a player in boolean logic
+bool state(const User& player)
 {
-    bool hits{true};
-    while (hits) // will only end when player stands or player lost
+    switch (player.status)
+    {
+        case User::lost:
+            return false;
+        default:
+            return true;
+    }
+}
+
+// The User's turn commences and ends here
+void playerTurn(Deck& deck, User& player)
+{
+    bool draw{true};
+    while (draw) // will only end when player stands or player lost
     {
         printStats(player);
 
         char choice{playerChoice()};
-        hits = endTurn(choice, deck, player);
+        draw = endTurn(choice, deck, player);
     }
-    return true;
+}
+
+// The Dealer's turn commences and ends here
+void dealerTurn(Deck& deck, User& dealer)
+{
+    bool draw{true};
+    while (draw) // keep drawing until score reaches atleast 17
+    {
+        printStats(dealer);
+
+        std::cout << "Press any key to Draw:";
+
+        char temp{};
+        std::cin >> temp;
+
+        dealer.drawFrom(deck);
+        printDraw(dealer);
+
+        // stand if score is between 17 and 21
+        if (dealer.score > 17 && dealer.score <= 21)
+        {
+            dealer.status = User::stand;
+            break;
+        }
+        else if (dealer.score > 21) // loses if score crosses 21
+        {
+            dealer.status = User::lost;
+            std::cout << dealer.name << " lost!\n";
+
+            break;
+        }
+    }
+}
+
+// return true if player lost(false if dealer lost)
+bool playerLost(const User& player)
+{
+    using enum User::Status;
+    switch (player.type)
+    {
+        case User::dealer: // dealer lost, return true
+        {
+            const User& dealer = player;
+            return (dealer.status == lost) ? false : true;
+        }
+        case User::player: // player lost, return false
+            return (player.status == lost) ? true : false;
+        default:
+            return false;
+    }
+}
+
+// compares scores, sets status accordingly
+void compare(User& dealer, User& player)
+{
+    if (dealer.score > player.score)
+    {
+        player.status = User::lost;
+    }
+    else
+    {
+        dealer.status = User::lost;
+    }
+}
+
+void printResults(const User& a, const User& b)
+{
+    printStats(a);
+
+    std::cout << "|----------------------------------|\n";
+
+    printStats(b);
 }
 
 bool playBlackjack(Deck& deck)
 {
-    Player dealer{.type{Player::Type::dealer}};
-    Player user{.type{Player::Type::player}};
+    User dealer{.type{User::Type::dealer}};
+    User player{.type{User::Type::player}};
 
-    startPhase(deck, dealer, user);
+    startPhase(deck, dealer, player);
 
-    PlayerTurn(deck, user);
+    playerTurn(deck, player);
+    if (playerLost(player)) // player lost
+    {
+        printResults(dealer, player);
+        return false;
+    }
 
-    return true;
+    dealerTurn(deck, dealer);
+    if (!playerLost(dealer)) // if dealer lost is true, player won
+    {
+        printResults(dealer, player);
+        return true;
+    }
+    compare(dealer, player);
+
+    printResults(dealer, player);
+
+    return !playerLost(player);
 }

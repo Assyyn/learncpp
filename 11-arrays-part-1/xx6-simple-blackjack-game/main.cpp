@@ -6,7 +6,12 @@ int main()
     Deck deck{createDeck()};
     shuffleDeck(deck);
 
-    playBlackjack(deck);
+    if (playBlackjack(deck))
+    {
+        std::cout << "Player won\n";
+    }
+    else
+        std::cout << "Player lost\n";
 
     return 0;
 }

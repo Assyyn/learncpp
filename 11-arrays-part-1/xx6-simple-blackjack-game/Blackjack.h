@@ -7,8 +7,8 @@
 #include <string_view>
 #include <vector>
 
-// A 'Player' in the game of Blackjack
-struct Player
+// A 'User' in the game of Blackjack
+struct User
 {
     // enum to differentiate player 'type' (dealer/player)
     enum Type
@@ -17,10 +17,21 @@ struct Player
         player,
     };
 
+    // current player status
+    enum Status
+    {
+        stand,
+        lost,
+        idle,
+    };
+
     // player type:
     Type type;
 
-    // Player name:
+    // player status:
+    Status status{idle}; // idle by default
+
+    // User name:
     std::string name{getName()};
 
     // the cards in the players hand
@@ -30,7 +41,7 @@ struct Player
     int score{0};
 
     // retrieves a card from deck, and places it in hand
-    void receiveCard(Deck& deck);
+    void drawFrom(Deck& deck);
 
     // print player's hand
     void printHand() const;
@@ -40,13 +51,13 @@ struct Player
 };
 
 // print player stats
-void printStats(const Player& player);
+void printStats(const User& player);
 
 // returns a card from given deck
 Card fromDeck(Deck& deck);
 
 // the starting phase: dealer and player are dealt their cards
-void startPhase(Deck& deck, Player& dealer, Player& user);
+void startPhase(Deck& deck, User& dealer, User& user);
 
 // play the game of blackjack
 bool playBlackjack(Deck& deck);
