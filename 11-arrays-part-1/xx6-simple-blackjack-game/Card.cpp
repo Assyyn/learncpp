@@ -70,16 +70,19 @@ void printCard(const Card& card)
 
 void set(Card& card)
 {
-    static int rank{2};
-    static int suit{0};
-    if (rank == static_cast<int>(Rank::maxRank))
+    using enum Rank;
+    using enum Suit;
+
+    static int rank{(int)rank_2};
+    static int suit{(int)club};
+    if ((Rank)rank == maxRank)
     {
-        rank = 2;
+        rank = (int)rank_2;
         suit++;
     }
-    if (suit == static_cast<int>(Suit::maxSuits))
+    if ((Suit)suit == maxSuits)
     {
-        suit = 0;
+        suit = (int)club;
     }
 
     card.rank = static_cast<Rank>(rank++);
@@ -103,7 +106,7 @@ void shuffleDeck(Deck& deck)
 {
     // create and seed PRNG
     std::random_device rd;
-    std::mt19937 mt(rd());
+    static std::mt19937 mt(rd());
 
     std::shuffle(deck.begin(), deck.end(), mt);
 }

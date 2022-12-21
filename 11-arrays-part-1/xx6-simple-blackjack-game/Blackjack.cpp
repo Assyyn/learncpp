@@ -10,19 +10,22 @@ playBlackjack(). This function should:
 
 #include "Blackjack.h"
 
+constexpr int g_maximumScore{21};
+constexpr int g_minimumDealerScore{17};
+
 Card fromDeck(Deck& deck)
 {
     Card result;
 
-    std::uniform_int_distribution r(0, 51);
+    std::uniform_int_distribution r(0, static_cast<int>(deck.size() - 1));
     std::random_device rd;
-    std::mt19937 mt{rd()};
+    static std::mt19937 mt{rd()}; // only seed once
 
     while (true)
     {
         int rIndex{r(mt)};
-        Card& randomCard{
-            deck[rIndex]}; // reference used to modify the actual Card in Deck
+        Card& randomCard{deck[rIndex]}; // reference is used to modify the
+                                        // actual Card in Deck
 
         // set rank to maxRank, which is not a real rank.
         // Cards in deck having rank maxRank are with the players
@@ -108,14 +111,14 @@ void printStats(const User& player)
 }
 
 // when player 'hits'
-bool hit(Deck& deck, User& player)
+bool playerWantsHit(Deck& deck, User& player)
 {
     std::cout << "\nHit!\n";
     player.drawFrom(deck);
 
     printDraw(player);
 
-    if (player.score > 21)
+    if (player.score > g_maximumScore)
     {
         std::cout << player.name << " lost!\n";
         player.status = User::lost;
@@ -158,7 +161,7 @@ bool endTurn(char choice, Deck& deck, User& player)
     switch (choice)
     {
         case 'h':
-            return hit(deck, player);
+            return playerWantsHit(deck, player);
         case 's':
             return stand(player);
         default: // will never occur
@@ -208,12 +211,14 @@ void dealerTurn(Deck& deck, User& dealer)
         printDraw(dealer);
 
         // stand if score is between 17 and 21
-        if (dealer.score > 17 && dealer.score <= 21)
+        if (dealer.score > g_minimumDealerScore &&
+            dealer.score <= g_maximumScore)
         {
             dealer.status = User::stand;
             break;
         }
-        else if (dealer.score > 21) // loses if score crosses 21
+        else if (dealer.score >
+                 g_maximumScore) // loses if score crosses g_maximumScore
         {
             dealer.status = User::lost;
             std::cout << dealer.name << " lost!\n";
