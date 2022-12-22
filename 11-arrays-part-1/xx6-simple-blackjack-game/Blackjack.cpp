@@ -10,6 +10,9 @@ playBlackjack(). This function should:
 
 #include "Blackjack.h"
 
+#include <iostream>
+#include <random>
+
 constexpr int g_maximumScore{62};
 constexpr int g_minimumDealerScore{57};
 
@@ -17,7 +20,7 @@ Card fromDeck(Deck& deck)
 {
     Card result;
 
-    std::uniform_int_distribution r(0, static_cast<int>(deck.size() - 1));
+    std::uniform_int_distribution r(0, (deck.size() - 1));
     std::random_device rd;
     static std::mt19937 mt{rd()}; // only seed once
 
@@ -29,10 +32,10 @@ Card fromDeck(Deck& deck)
 
         // set rank to maxRank, which is not a real rank.
         // Cards in deck having rank maxRank are with the players
-        if (randomCard.rank != Rank::maxRank)
+        if (randomCard.rank != maxRank)
         {
             result = randomCard;
-            randomCard.rank = Rank::maxRank;
+            randomCard.rank = maxRank;
             break;
         }
     }
@@ -42,7 +45,7 @@ Card fromDeck(Deck& deck)
 void User::drawFrom(Deck& deck)
 {
     // get card from deck
-    auto card{fromDeck(deck)};
+    const auto card{fromDeck(deck)};
 
     // store it in the vector(for future reference)
     cardsInHand.push_back(card);
@@ -66,7 +69,7 @@ std::string_view pType(const User& player)
     return (player.type == User::Type::dealer) ? "Dealer" : "Player";
 }
 
-std::string User::getName()
+std::string User::getName() const
 {
     // maximum characters in username
     constexpr int max_Usize{10};
@@ -157,7 +160,7 @@ char playerChoice()
 }
 
 // take action on player's choice
-bool endTurn(char choice, Deck& deck, User& player)
+bool endTurn(const char choice, Deck& deck, User& player)
 {
     switch (choice)
     {
@@ -190,7 +193,7 @@ void playerTurn(Deck& deck, User& player)
     {
         printStats(player);
 
-        char choice{playerChoice()};
+        const char choice{playerChoice()};
         draw = endTurn(choice, deck, player);
     }
 }
@@ -218,8 +221,7 @@ void dealerTurn(Deck& deck, User& dealer)
             dealer.status = User::stand;
             break;
         }
-        else if (dealer.score >
-                 g_maximumScore) // loses if score crosses g_maximumScore
+    	if (dealer.score > g_maximumScore) // loses if score crosses g_maximumScore
         {
             dealer.status = User::lost;
             std::cout << dealer.name << " lost!\n";

@@ -1,65 +1,71 @@
 #include "Card.h"
 
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include <random>
+#include <cassert>
+
 /* c) Create a printCard() function that takes a const Card reference as a
  * parameter and prints the card rank and suit as a 2-letter code (e.g. the jack
  * of spades would print as JS).
  */
 char rankInitial(const Rank& rank)
 {
-    using enum Rank;
+	using enum Rank;
 
-    switch (rank)
-    {
-        case rank_2:
-        case rank_3:
-        case rank_4:
-        case rank_5:
-        case rank_6:
-        case rank_7:
-        case rank_8:
-        case rank_9:
-            return '0' + static_cast<int>(rank);
+	switch (rank)
+	{
+	case rank_2:
+	case rank_3:
+	case rank_4:
+	case rank_5:
+	case rank_6:
+	case rank_7:
+	case rank_8:
+	case rank_9:
+		return '0' + static_cast<int>(rank);
 
-        case rank_10:
-            return 'T';
-        case jack:
-            return 'J';
-        case queen:
-            return 'Q';
-        case king:
-            return 'K';
-        case ace:
-            return 'A';
-        default:
-            return '?';
-    }
+	case rank_10:
+		return 'T';
+	case jack:
+		return 'J';
+	case queen:
+		return 'Q';
+	case king:
+		return 'K';
+	case ace:
+		return 'A';
+	default:
+		return '?';
+	}
 }
 
 char suitInitial(const Suit& suit)
 {
-    using enum Suit;
+	using enum Suit;
 
-    switch (suit)
-    {
-        case club:
-            return 'C';
-        case diamond:
-            return 'D';
-        case spade:
-            return 'S';
-        case heart:
-            return 'H';
-        default:
-            return '?';
-    }
+	switch (suit)
+	{
+	case club:
+		return 'C';
+	case diamond:
+		return 'D';
+	case spade:
+		return 'S';
+	case heart:
+		return 'H';
+	default:
+		return '?';
+	}
 }
 
 void printCard(const Card& card)
 {
-    auto rI{rankInitial(card.rank)};
-    auto sI{suitInitial(card.suit)};
+	const auto rI{rankInitial(card.rank)};
+	const auto sI{suitInitial(card.suit)};
 
-    std::cout << rI << sI;
+	std::cout << rI << sI;
 }
 
 /* d) A deck of cards has 52 cards. Create an array (using std::array) to
@@ -70,32 +76,32 @@ void printCard(const Card& card)
 
 void set(Card& card)
 {
-    using enum Rank;
-    using enum Suit;
+	using enum Rank;
+	using enum Suit;
 
-    static int rank{(int)rank_2};
-    static int suit{(int)club};
-    if ((Rank)rank == maxRank)
-    {
-        rank = (int)rank_2;
-        suit++;
-    }
-    if ((Suit)suit == maxSuits)
-    {
-        suit = (int)club;
-    }
+	static int rank{rank_2};
+	static int suit{club};
+	if (rank == maxRank)
+	{
+		rank = static_cast<int>(rank_2);
+		suit++;
+	}
+	if (static_cast<Suit>(suit) == maxSuits)
+	{
+		suit = static_cast<int>(club);
+	}
 
-    card.rank = static_cast<Rank>(rank++);
-    card.suit = static_cast<Suit>(suit);
+	card.rank = static_cast<Rank>(rank++);
+	card.suit = static_cast<Suit>(suit);
 }
 
 Deck createDeck()
 {
-    Deck deck;
+	Deck deck;
 
-    std::for_each(deck.begin(), deck.end(), set);
+	std::ranges::for_each(deck, set);
 
-    return deck;
+	return deck;
 }
 
 /* f) Write a function named shuffleDeck to shuffle the deck of cards using
@@ -104,11 +110,11 @@ Deck createDeck()
  */
 void shuffleDeck(Deck& deck)
 {
-    // create and seed PRNG
-    std::random_device rd;
-    static std::mt19937 mt(rd());
+	// create and seed PRNG
+	std::random_device rd;
+	static std::mt19937 mt(rd());
 
-    std::shuffle(deck.begin(), deck.end(), mt);
+	std::ranges::shuffle(deck, mt);
 }
 
 /* g) Write a function named getCardValue() that returns the value of a Card
@@ -117,25 +123,25 @@ void shuffleDeck(Deck& deck)
  */
 int getCardValue(const Card& card)
 {
-    auto cardValue{static_cast<int>(card.rank)};
-    if ((Rank)cardValue < Rank::rank_2 || (Rank)cardValue > Rank::maxRank)
-        assert(false && "should never happen");
+	auto cardValue{static_cast<int>(card.rank)};
+	if (static_cast<Rank>(cardValue) < rank_2 || static_cast<Rank>(cardValue) > maxRank)
+		assert(false && "should never happen");
 
-    if (cardValue == (int)Rank::ace)
-        return 11;
+	if (cardValue == static_cast<int>(Rank::ace))
+		return 11;
 
-    if (cardValue >= (int)Rank::rank_10 && cardValue <= (int)Rank::king)
-        return 10;
+	if (cardValue >= static_cast<int>(Rank::rank_10) && cardValue <= static_cast<int>(Rank::king))
+		return 10;
 
-    return cardValue;
+	return cardValue;
 }
 
 void printDeck(const Deck& deck)
 {
-    for (const auto& card : deck)
-    {
-        printCard(card);
-        std::cout << ' ';
-    }
-    std::cout << '\n';
+	for (const auto& card : deck)
+	{
+		printCard(card);
+		std::cout << ' ';
+	}
+	std::cout << '\n';
 }
