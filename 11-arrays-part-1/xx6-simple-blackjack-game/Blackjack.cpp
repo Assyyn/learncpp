@@ -10,8 +10,8 @@ playBlackjack(). This function should:
 
 #include "Blackjack.h"
 
-constexpr int g_maximumScore{21};
-constexpr int g_minimumDealerScore{17};
+constexpr int g_maximumScore{62};
+constexpr int g_minimumDealerScore{57};
 
 Card fromDeck(Deck& deck)
 {
@@ -99,7 +99,8 @@ void startPhase(Deck& deck, User& dealer, User& player)
 // print player stats
 void printStats(const User& player)
 {
-    std::cout << "\nStats for: " << player.name << '\n';
+    std::cout << "\nStats for: " << player.name << '\t'
+              << "Maximum Score: " << g_maximumScore << '\n';
 
     std::cout << "Type: " << pType(player) << '\n';
 
@@ -268,7 +269,7 @@ void printResults(const User& a, const User& b)
     printStats(b);
 }
 
-bool playBlackjack(Deck& deck)
+Result playBlackjack(Deck& deck)
 {
     User dealer{.type{User::Type::dealer}};
     User player{.type{User::Type::player}};
@@ -279,18 +280,18 @@ bool playBlackjack(Deck& deck)
     if (playerLost(player)) // player lost
     {
         printResults(dealer, player);
-        return false;
+        return lost;
     }
 
     dealerTurn(deck, dealer);
     if (!playerLost(dealer)) // if dealer lost is true, player won
     {
         printResults(dealer, player);
-        return true;
+        return won;
     }
     compare(dealer, player);
 
     printResults(dealer, player);
 
-    return !playerLost(player);
+    return ((!playerLost(player)) ? won : lost);
 }

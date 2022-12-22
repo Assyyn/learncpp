@@ -50,6 +50,13 @@ struct User
     std::string getName();
 };
 
+enum Result
+{
+    draw,
+    won,
+    lost,
+};
+
 // print player stats
 void printStats(const User& player);
 
@@ -60,6 +67,6 @@ Card fromDeck(Deck& deck);
 void startPhase(Deck& deck, User& dealer, User& user);
 
 // play the game of blackjack
-bool playBlackjack(Deck& deck);
+Result playBlackjack(Deck& deck);
 
 #endif
