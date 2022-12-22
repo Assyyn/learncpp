@@ -1,16 +1,10 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <algorithm>
 #include <array>
-#include <cassert>
-#include <iostream>
-#include <numeric>
-#include <random>
-#include <ranges>
 
 // represents the Suit of a Card
-enum class Suit
+enum Suit
 {
     club,
     diamond,
@@ -21,7 +15,7 @@ enum class Suit
 };
 
 // represents the Rank of a Card
-enum class Rank
+enum Rank
 {
     rank_2 = 2,
     rank_3,

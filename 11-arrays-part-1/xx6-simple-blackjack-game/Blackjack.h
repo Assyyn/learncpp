@@ -47,7 +47,7 @@ struct User
     void printHand() const;
 
     // asks for username and returns it
-    std::string getName();
+    [[nodiscard]]std::string getName() const;
 };
 
 enum Result
@@ -64,7 +64,7 @@ void printStats(const User& player);
 Card fromDeck(Deck& deck);
 
 // the starting phase: dealer and player are dealt their cards
-void startPhase(Deck& deck, User& dealer, User& user);
+void startPhase(Deck& deck, User& dealer, User& player);
 
 // play the game of blackjack
 Result playBlackjack(Deck& deck);
