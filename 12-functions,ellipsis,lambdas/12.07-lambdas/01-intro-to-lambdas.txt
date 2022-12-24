@@ -1,0 +1,17 @@
+ * A lambda expression (also called a lambda or closure) allows us to define an
+ * anonymous function inside another function. The nesting is important, as it
+ * allows us both to avoid namespace naming pollution, and to define the
+ * function as close to where it is used as possible (providing additional
+ * context).
+
+    Lambdas take the form:
+    [capture clause] (parameters) -> return_type
+    {
+        statements;
+    }
+
+    They don't have names
+
+    A trivial lambda definition:
+    []{};
+
