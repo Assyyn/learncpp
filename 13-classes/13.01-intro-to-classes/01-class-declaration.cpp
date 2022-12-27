@@ -1,9 +1,9 @@
 // A typical class declaration:
 class A
 {
-  public:
+public:
     // something
-  private:
+private:
     // something
 };
 

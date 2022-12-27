@@ -6,7 +6,7 @@
 
 class IntPair
 {
-  public:
+public:
     int m_first{};
     int m_second{};
 

@@ -7,7 +7,7 @@
 // An example class
 class DateClass
 {
-  public:
+public:
     /* Using the “m_” prefix for member variables helps distinguish member
      * variables from function parameters or local variables inside member
      * functions. This is useful for several reasons. First, when we see an
@@ -44,7 +44,7 @@ int main()
 // completely fine to do this
 class foo
 {
-  public:
+public:
     void x()
     {
         y();

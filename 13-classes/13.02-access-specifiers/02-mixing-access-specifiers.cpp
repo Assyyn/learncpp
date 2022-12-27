@@ -8,7 +8,7 @@ class DateClass // members are private by default
 
     // public members of a class are often referred to as a public
     // interface
-  public:
+public:
     void setDate(int month, int day,
                  int year) // public, can be accessed by anyone
     {

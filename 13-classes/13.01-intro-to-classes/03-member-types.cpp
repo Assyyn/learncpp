@@ -4,7 +4,7 @@
 // classes can also have member types or nested types(along with type aliases)
 class Student
 {
-  public:
+public:
     // type alias(within the class' namespace)
     using IDType = int;
 

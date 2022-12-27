@@ -10,7 +10,7 @@ class DateClass // members are private by default
     int m_day{};   // private by default, can only be accessed by other members
     int m_year{};  // private by default, can only be accessed by other members
 
-  public:
+public:
     void setDate(int month, int day, int year)
     {
         m_month = month;

@@ -5,7 +5,7 @@ struct A
     int m_member{};
 
     // we can also have private member variables in structs
-  private:
+private:
     int m_private{};
 };
 
@@ -16,7 +16,7 @@ class B
     int m_member{}; // m_member is private
 
     // we can make class members public by using the public: keyword
-  public:
+public:
     int m_public{};
 };
 
