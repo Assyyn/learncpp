@@ -8,7 +8,7 @@ A Vector can be applied to a Point to move the Point to a new position. This is 
 
 Points and Vectors are often used in computer graphics (the point to represent vertices of shape, and vectors represent movement of the shape).
 
-Given the [program](question.md),
+Given the [program](givenProgram.cpp),
 
 1. Add a function to the Point class that takes a Vector as a parameter and adds the vector to the point. The function should return a new Point that is the result of the vector addition.
 
