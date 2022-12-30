@@ -2,7 +2,13 @@
 
 // Note: 'friend' is only applied one way, so a class declaring another as its
 // friend means that the other class can access its private members but it
-// cannot, unless it is also declared as a friend by that class
+// cannot, unless it is also declared as a friend by that class.
+
+// This is useful in a case like below, where both classes don't need to access
+// each others' data. (well, the bulb could really just short circuit and cause
+// the circuit to disconnect but anyways...)
+
+// example code using friend class and function: a try
 
 #include <iostream>
 
@@ -11,7 +17,7 @@ class Circuit;
 class Bulb
 {
 private:
-    /// @brief clever trick to make it clear that false==off & on==true
+    // clever trick to make it clear that false==off and on==true
     enum State
     {
         off,
@@ -38,6 +44,9 @@ public:
     // by default false
     Circuit(bool connected = false) : m_connected{connected} {}
 
+    // Circuit and its member(s) can access private members of Bulb objects
+    // provided to them, but don't have direct access to the Bulb's *this
+    // pointer
     void connect(Bulb& bulb);
     void disconnect(Bulb& bulb);
 
@@ -60,12 +69,12 @@ void Circuit::disconnect(Bulb& bulb)
 
 void printStatus(const Circuit& circuit, const Bulb& bulb)
 {
-    std::cout << "Circuit is: " << [connected{circuit.m_connected}] {
-        return connected ? "connected" : "disconnected";
+    std::cout << "Circuit is: " << [circuit] {
+        return circuit.m_connected ? "connected" : "disconnected";
     }() << '\n';
 
     std::cout << "Bulb status: " <<
-        [state{bulb.m_state}] { return state ? "on" : "off"; }() << '\n';
+        [bulb] { return bulb.m_state ? "on" : "off"; }() << '\n';
 }
 
 int main()
@@ -85,3 +94,9 @@ int main()
 
     return 0;
 }
+
+// Advice from learncpp:
+// Be careful when using friend functions and classes, because it allows the
+// friend function or class to violate encapsulation. If the details of the
+// class change, the details of the friend will also be forced to change.
+// Consequently, limit your use of friend functions and classes to a minimum.
