@@ -1,17 +1,17 @@
 # A Documentation of My journey learning C++
 
-## Table of Contents
+The programs in this repository are written in C++ and are meant to be used as a reference for myself. I am not a professional programmer, and I am not a professional teacher. I am just a student who is learning C++ and documenting my journey. I am not a native English speaker, so please excuse any grammatical errors.
 
-1. [Scope-duration-and-linkage](06-scope-duration-and-linkage/)
-2. [Control-flow-and-error-handling](07-control-flow-and-error-handling/)
-3. [Type-conversion-and-function-overloading](08-type-conversion-and-function-overloading/)
-4. [Compound-types-A](09-compound-types-A/)
-5. [Compound-types-B](10-compound-types-B/)
-6. [Arrays-and-pointers](11-arrays-and-pointers/)
-7. [Functions](12-functions/)
+It is recommended that your compiler supports `C++17` or higher to build the programs, for *maximum* compatibility. I am using *gcc 12.2.0*.
+The compilation flags (recommended) are:
+
+- `-std=c++20 -Wall -Wextra -Wpedantic -Werror -ggdb` for debug builds.
+- `-std=c++20 -Wall -Wextra -Wpedantic -Werror -O2 -DNDEBUG` for release builds.
+
+While `C++17` is recommended, you *could* compile some programs using previous standards for sure. I am using `C++20` because I am using `std::ranges` in some programs.
 
 ---
 
-I am open to any feedbacks, suggestions, and corrections. Please feel free to open an issue or a pull request.
+I am open to any feedbacks, suggestions, and corrections. Please feel free to open an issue or a pull request. Anyone who could help me improve my code, and reorganize the repository is welcome.
 
 ---
