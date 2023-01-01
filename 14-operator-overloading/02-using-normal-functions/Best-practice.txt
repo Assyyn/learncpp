@@ -1,0 +1,1 @@
+Prefer overloading operators as normal functions instead of friends if it’s possible to do so without adding additional functions.
