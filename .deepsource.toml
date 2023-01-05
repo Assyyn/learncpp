@@ -1,7 +1,0 @@
-version = 1
-
-test_patterns = ["\"/**\""]
-
-[[analyzers]]
-name = "cxx"
-enabled = true
