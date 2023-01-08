@@ -1,0 +1,3 @@
+Avoid multiple inheritance unless alternatives lead to more complexity.
+
+Some even go as far as to say don't EVER use it
