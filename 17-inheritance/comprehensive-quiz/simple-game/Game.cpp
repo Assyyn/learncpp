@@ -87,12 +87,22 @@ void Game::attackMonster(Monster& monster)
               << m_player.getDamage() << " damage.\n";
 
     if (monster.isDead())
+        onMonsterKilled(monster);
+}
+
+void Game::onMonsterKilled(const Monster& monster)
+{
+    std::cout << "You defeated the " << monster.getName() << ".\n";
+    m_player.levelUp();
+    std::cout << "You are now level " << m_player.getLevel() << ".\n";
+    std::cout << "You found " << monster.getGold() << " gold.\n";
+    m_player.addGold(monster.getGold());
+
+    // 30% chance of finding a potion
+    constexpr int potionChance{30};
+    if (getRandomNumber(0, 100) >= potionChance) // >=30%
     {
-        std::cout << "You defeated the " << monster.getName() << ".\n";
-        m_player.levelUp();
-        std::cout << "You are now level " << m_player.getLevel() << ".\n";
-        std::cout << "You found " << monster.getGold() << " gold.\n";
-        m_player.addGold(monster.getGold());
+        foundPotion();
     }
 }
 
@@ -143,4 +153,21 @@ void Game::play()
     else
         std::cout << "You won with " << m_player.getGold() << " gold.\n"
                   << "Remaining HP: " << m_player.getHealth() << '\n';
+}
+
+void Game::foundPotion()
+{
+    Potion potion{Potion::getRandomPotion()};
+    std::cout << "You found a " << potion.getRarity(potion.getSize())
+              << " potion! Do you want to drink it?(y/n): ";
+
+    char ch{' '};
+    while (!(ch == 'y' || ch == 'Y' || ch == 'N' || ch == 'n'))
+        std::cin >> ch;
+
+    if (ch == 'y' || ch == 'Y')
+    {
+        m_player.drinkPotion(potion);
+        std::cout << "You drank a " << potion.getName() << ".\n";
+    }
 }

@@ -7,6 +7,7 @@
 
 #include "Monster.h"
 #include "Player.h"
+#include "Potions.h"
 
 #include <iostream>
 #include <limits>
@@ -64,10 +65,14 @@ private:
     void chooseToFight(Monster& monster);
     // fight logic: player turn
     void attackMonster(Monster& monster);
+    // player kills monster in player turn
+    void onMonsterKilled(const Monster& monster);
     // fight logic: monster turn
     void getAttacked(const Monster& monster);
     // player chooses to flee @choose()
     bool tryFleeing(Monster& monster);
+    // player kills monster and finds potion
+    void foundPotion();
 
     // main Game loop, Encounter()->choose()->...
     void fightMonster();
