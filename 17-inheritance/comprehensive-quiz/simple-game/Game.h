@@ -40,7 +40,7 @@ private:
         static inline std::string_view create()
         {
             std::cout << "Enter your name: ";
-            std::string name;
+            static std::string name;
             std::cin >> name;
 
             return name;
@@ -48,11 +48,15 @@ private:
     };
 
     Player m_player{PlayerInit::create()};
+    std::string_view playerName; // to store player's name on the occassion that
+                                 // they try again.
 
-    // for @fightMonster()
+    int tries{1}; // to keep track of player retries
+
+private:
     char getChoice()
     {
-        char ch{'x'};
+        char ch{' '};
         while (!(ch == 'F' || ch == 'f' || ch == 'R' || ch == 'r'))
         {
             std::cout << "(R)un or (F)ight: ";
@@ -63,7 +67,7 @@ private:
         return ch;
     }
 
-    void ignoreLine()
+    void ignoreLine() // ignore everything after this call until newline('\n')
     {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -84,34 +88,51 @@ private:
      *      - (R): tryFleeing(), success? #1 : #2
      */
 
+    // player chooses to fight the monster after being prompted to choose
+    void chooseToFight(Monster& monster)
+    {
+        while (!m_player.isDead() && !monster.isDead())
+        {
+            attackMonster(monster);
+            getAttacked(monster);
+        }
+
+        return;
+    }
+
+    // player chooses to flee @choose()
+    bool tryFleeing(Monster& monster)
+    {
+        // has 1/2 chance to flee
+        if (getRandomNumber(0, 1))
+        {
+            std::cout << "You have successfully fled.\n";
+            return true;
+        }
+
+        // failed, Monster gets free hit, prompted to choose again
+        std::cout << "You failed to flee.\n";
+        getAttacked(monster);
+        return false;
+    }
+
     void fightMonster() // needs refactoring
     {
         Monster monster{encounterMonster()};
 
-        while (!m_player.isDead())
+        while (!m_player.isDead() && !monster.isDead())
         {
             char choice{getChoice()};
-
-            if (choice == 'F' || choice == 'f')
+            if (choice == 'f' || choice == 'F')
             {
-                while (!m_player.isDead() && !monster.isDead())
-                {
-                    attackMonster(monster);
-                    getAttacked(monster);
-                }
+                chooseToFight(monster);
                 return;
             }
             else if (choice == 'r' || choice == 'R')
             {
-                if (getRandomNumber(0, 1))
-                {
-                    std::cout << "You successfully fled.\n";
+                if (tryFleeing(monster)) // if successfully fled, return. else
+                                         // choose again
                     return;
-                }
-
-                std::cout << "You failed to flee.\n";
-                getAttacked(monster);
-                break;
             }
         }
     }
@@ -151,12 +172,15 @@ private:
     }
 
 public:
-    Game() = default;
+    Game() { playerName = m_player.getName(); }
     Game(const Game& game) = delete;
     Game operator=(const Game& game) = delete;
 
     void play()
     {
+        if (tries > 1)
+            std::cout << "\nHello again, Adventurer " << playerName << '\n';
+
         while (!m_player.isDead() && m_player.getLevel() < 20)
             fightMonster();
 
@@ -170,7 +194,11 @@ public:
     }
 
     // to play a new game
-    void reset() { m_player = Player{PlayerInit::create()}; }
+    void reset()
+    {
+        m_player = Player{playerName};
+        playerName = m_player.getName();
+    }
 
     bool playAgain()
     {
@@ -183,6 +211,7 @@ public:
             if (ch == 'y' || ch == 'Y')
             {
                 ignoreLine();
+                ++tries;
                 return true;
             }
             if (ch == 'n' || ch == 'N')
