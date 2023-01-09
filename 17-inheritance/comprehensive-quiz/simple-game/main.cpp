@@ -1,7 +1,4 @@
-#include "Creature.h"
 #include "Game.h"
-#include "Monster.h"
-#include "Player.h"
 
 #include <iostream>
 #include <string>

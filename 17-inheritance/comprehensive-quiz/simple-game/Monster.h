@@ -39,7 +39,7 @@ public:
 };
 
 // generate a random number
-int getRandomNumber(int min, int max)
+inline int getRandomNumber(int min, int max)
 {
     std::random_device rd;
     std::seed_seq sseq{rd(), rd(), rd(), rd(), rd()};
